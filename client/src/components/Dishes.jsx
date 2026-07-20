@@ -13,7 +13,7 @@ import { orderContext } from "../contexts/orderContext";
 
 const Dishes = () => {
   const { filteredDishes } = useContext(dishContext);
-  const { cartItems, setCartItems } = useContext(orderContext);
+  const { cartItems, setCartItems, setShowCart } = useContext(orderContext);
 
   const handleClick = (dish) => {
     const foundIndex = cartItems.findIndex((item, index) => {
@@ -38,11 +38,12 @@ const Dishes = () => {
       };
       setCartItems(newArray);
     }
+    setShowCart(true);
   };
 
   return (
-    <>
-      <div className="col-6  flex-column flex-fill border shadow rounded p-3">
+    <div className="col-12 col-md-9 col-xl-6">
+      <div className="d-flex flex-column flex-fill border shadow rounded p-3  h-100">
         <div className="d-flex justify-content-between">
           <div className="d-flex flex-column">
             <h4>All Dishes </h4>
@@ -135,7 +136,7 @@ const Dishes = () => {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import { orderContext } from "../contexts/orderContext";
 
 export const Navigation = () => {
-  const { cartItems } = useContext(orderContext);
+  const { cartItems, setShowCart } = useContext(orderContext);
   return (
     <div className="border shadow">
       <Navbar
@@ -79,6 +79,7 @@ export const Navigation = () => {
                 <Button
                   variant="outline-success"
                   className="position-relative rounded gap-2 d-flex align-items-center"
+                  onClick={() => setShowCart(true)}
                 >
                   <FiShoppingCart className="" />
                   <Badge

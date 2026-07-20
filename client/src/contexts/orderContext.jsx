@@ -55,9 +55,12 @@ const initialItems = [
 
 const OrderProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(initialItems);
+  const [showCart, setShowCart] = useState(false);
 
   return (
-    <orderContext.Provider value={{ cartItems, setCartItems }}>
+    <orderContext.Provider
+      value={{ cartItems, setCartItems, showCart, setShowCart }}
+    >
       {children}
     </orderContext.Provider>
   );

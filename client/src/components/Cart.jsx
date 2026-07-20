@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Offcanvas } from "react-bootstrap";
 import { orderContext } from "../contexts/orderContext";
 import { FaCheckCircle } from "react-icons/fa";
 
-const Cart = () => {
-  const { cartItems, setCartItems } = useContext(orderContext);
-  const [show, setShow] = useState(false);
+const Cart = (props) => {
+  const { cartItems, setCartItems, setShowCart } = useContext(orderContext);
+  const { setShow } = props;
 
   const handleRemove = () => {
     setCartItems([]);
@@ -57,99 +57,124 @@ const Cart = () => {
   const handleClick = () => {
     setShow(true);
     setCartItems([]);
+    setShowCart(false);
   };
 
   return (
-    <div
-      className="col-3 flex-column shadow border rounded p-3"
-      style={{ flex: "0 0 350px" }}
-    >
-      <div className="d-flex border-bottom p-3 justify-content-between">
-        <h5>Your Cart({cartItems.length})</h5>
-        <Button
-          onClick={handleRemove}
-          className="text-danger bg-light border-0"
-        >
-          Clear Cart
-        </Button>
-      </div>
-      <div className="mt-3">
-        {cartItems.map((item, index) => (
-          <div
-            className="d-flex justify-content-between border-bottom rounded p-3 "
-            key={item.dish.name}
+    <div>
+      <div className="d-flex flex-column shadow border rounded p-3 h-100">
+        <div className="d-flex border-bottom p-3 justify-content-between">
+          <h5>Your Cart({cartItems.length})</h5>
+          <Button
+            onClick={handleRemove}
+            className="text-danger bg-light border-0"
           >
-            <img
-              src={item.dish.image}
-              alt="img"
-              className="rounded-4 border"
-              style={{
-                width: 100,
-                height: 100,
-                objectFit: "cover",
-                marginRight: 25,
-              }}
-            />
-            <div className="d-flex flex-column align-items-start justify-content-center gap-2">
-              <h6 className="fw-bold">{item.dish.name}</h6>
-              <span className="fw-bold">₹{item.subTotal}</span>
-              <div className="d-flex border flex-row align-items-center justify-content-between rounded">
+            Clear Cart
+          </Button>
+        </div>
+        <div className="mt-3">
+          {cartItems.map((item, index) => (
+            <div
+              className="d-flex justify-content-between border-bottom rounded p-3 "
+              key={item.dish.name}
+            >
+              <img
+                src={item.dish.image}
+                alt="img"
+                className="rounded-4 border"
+                style={{
+                  width: 100,
+                  height: 100,
+                  objectFit: "cover",
+                  marginRight: 25,
+                }}
+              />
+              <div className="d-flex flex-column align-items-start justify-content-center gap-2">
+                <h6 className="fw-bold">{item.dish.name}</h6>
+                <span className="fw-bold">₹{item.subTotal}</span>
+                <div className="d-flex border flex-row align-items-center justify-content-between rounded">
+                  <Button
+                    className="btn-light border-0"
+                    onClick={() => {
+                      handleDecrease(index);
+                    }}
+                  >
+                    -
+                  </Button>
+                  {item.quantity}
+                  <Button
+                    className="btn-light  border  border-0"
+                    onClick={() => {
+                      handleIncrease(index);
+                    }}
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
+              <div>
                 <Button
-                  className="btn-light border-0"
                   onClick={() => {
-                    handleDecrease(index);
+                    handleDelete(index);
                   }}
+                  className="btn-light border border-0"
                 >
-                  -
-                </Button>
-                {item.quantity}
-                <Button
-                  className="btn-light  border  border-0"
-                  onClick={() => {
-                    handleIncrease(index);
-                  }}
-                >
-                  +
+                  X
                 </Button>
               </div>
             </div>
-            <div>
-              <Button
-                onClick={() => {
-                  handleDelete(index);
-                }}
-                className="btn-light border border-0"
-              >
-                X
-              </Button>
+          ))}
+        </div>
+        <div className="d-flex  bg-light flex-column align-items-stretch p-3">
+          <div className="d-flex flex-column  gap-4">
+            <div className="d-flex justify-content-between">
+              <span className="fw-bold">Subtotal</span>
+              <span className="fw-bold">₹{subTotal}</span>
             </div>
+            <div className="d-flex justify-content-between">
+              <span className="fw-bold">Delivery Fee</span>
+              <span className="fw-bold">₹{deliveryFee}</span>
+            </div>
+            <div className="d-flex justify-content-between">
+              <span className="fw-bold">Total</span>
+              <span
+                className="fw-bold fs-5"
+                style={{ color: "var(--bs-primary)" }}
+              >
+                ₹{total}
+              </span>
+            </div>
+            <Button className="p-3" onClick={handleClick}>
+              Proceed to Checkout
+            </Button>
           </div>
-        ))}
-      </div>
-      <div className="d-flex  bg-light flex-column align-items-stretch p-3">
-        <div className="d-flex flex-column  gap-4">
-          <div className="d-flex justify-content-between">
-            <span className="fw-bold">Subtotal</span>
-            <span className="fw-bold">₹{subTotal}</span>
-          </div>
-          <div className="d-flex justify-content-between">
-            <span className="fw-bold">Delivery Fee</span>
-            <span className="fw-bold">₹{deliveryFee}</span>
-          </div>
-          <div className="d-flex justify-content-between">
-            <span className="fw-bold">Total</span>
-            <span
-              className="fw-bold fs-5"
-              style={{ color: "var(--bs-primary)" }}
-            >
-              ₹{total}
-            </span>
-          </div>
-          <Button className="p-3" onClick={handleClick}>
-            Proceed to Checkout
-          </Button>
         </div>
       </div>
+    </div>
+  );
+};
+
+const CartContainer = () => {
+  const { showCart, setShowCart } = useContext(orderContext);
+  const [show, setShow] = useState(false);
+  return (
+    <>
+      <div className="col-lg-3 d-none d-xl-block">
+        <Cart setShow={setShow} />
+      </div>
+      <Offcanvas
+        show={showCart}
+        className="d-xl-none"
+        onHide={() => setShowCart(false)}
+        placement="end"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title></Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Cart setShow={setShow} />
+        </Offcanvas.Body>
+      </Offcanvas>
 
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Body className="d-flex flex-column gap-4">
@@ -161,8 +186,8 @@ const Cart = () => {
           <h3 className="text-center">Order Submitted</h3>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 };
 
-export default Cart;
+export default CartContainer;
