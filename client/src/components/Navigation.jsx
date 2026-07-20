@@ -37,7 +37,7 @@ export const Navigation = () => {
           <span style={{ fontSize: "33px" }}>Foodie</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse className="d-flex flex-fill justify-content-between ">
+        <Navbar.Collapse className="justify-content-between ">
           <Form style={{ flexBasis: "500px" }}>
             <InputGroup>
               <Form.Control
