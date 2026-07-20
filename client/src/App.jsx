@@ -14,7 +14,7 @@ function App() {
           <OrderProvider>
             <div className="d-flex flex-column min-vh-100">
               <Navigation />
-              <div className="d-flex flex-fill align-items-stretch p-3 gap-3">
+              <div className="row flex-fill align-items-stretch p-3 gap-3">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                 </Routes>

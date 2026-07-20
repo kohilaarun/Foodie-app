@@ -61,7 +61,7 @@ const Cart = () => {
 
   return (
     <div
-      className="d-flex flex-column shadow border rounded p-3 "
+      className="col-3 flex-column shadow border rounded p-3"
       style={{ flex: "0 0 350px" }}
     >
       <div className="d-flex border-bottom p-3 justify-content-between">

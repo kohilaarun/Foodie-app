@@ -12,14 +12,14 @@ const Categories = (item) => {
 
   return (
     <div
-      className="border p-3 w-25 shadow"
-      style={{ maxWidth: 250, minWidth: 200 }}
+      className="col-12 col-md-3 border p-3 shadow"
+      style={{ minWidth: 200 }}
     >
       <div>
         <h5>Categories</h5>
       </div>
 
-      <div className="d-flex flex-column gap-2">
+      <div className="d-flex flex-md-column gap-2 flex-wrap">
         {categories.map((item, index) => {
           const isSelected = selectedCategory.name === item.name;
 

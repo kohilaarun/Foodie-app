@@ -42,7 +42,7 @@ const Dishes = () => {
 
   return (
     <>
-      <div className="d-flex flex-column flex-fill border shadow rounded p-3">
+      <div className="col-6  flex-column flex-fill border shadow rounded p-3">
         <div className="d-flex justify-content-between">
           <div className="d-flex flex-column">
             <h4>All Dishes </h4>
