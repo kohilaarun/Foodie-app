@@ -11,7 +11,7 @@ const Categories = (item) => {
   };
 
   return (
-    <div className="col-12 col-md-3">
+    <div className="col-12 col-md-3 col-xxl-2">
       <div className=" border p-3 shadow h-100" style={{ minWidth: 200 }}>
         <div>
           <h5>Categories</h5>

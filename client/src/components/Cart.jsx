@@ -61,93 +61,91 @@ const Cart = (props) => {
   };
 
   return (
-    <div>
-      <div className="d-flex flex-column shadow border rounded p-3 h-100">
-        <div className="d-flex border-bottom p-3 justify-content-between">
-          <h5>Your Cart({cartItems.length})</h5>
-          <Button
-            onClick={handleRemove}
-            className="text-danger bg-light border-0"
+    <div className="d-flex h-100 flex-column w-100">
+      <div className="d-flex border-bottom p-3 justify-content-between">
+        <h5>Your Cart({cartItems.length})</h5>
+        <Button
+          onClick={handleRemove}
+          className="text-danger bg-light border-0"
+        >
+          Clear Cart
+        </Button>
+      </div>
+      <div className="mt-3">
+        {cartItems.map((item, index) => (
+          <div
+            className="d-flex justify-content-between border-bottom rounded p-3 "
+            key={item.dish.name}
           >
-            Clear Cart
-          </Button>
-        </div>
-        <div className="mt-3">
-          {cartItems.map((item, index) => (
-            <div
-              className="d-flex justify-content-between border-bottom rounded p-3 "
-              key={item.dish.name}
-            >
-              <img
-                src={item.dish.image}
-                alt="img"
-                className="rounded-4 border"
-                style={{
-                  width: 100,
-                  height: 100,
-                  objectFit: "cover",
-                  marginRight: 25,
-                }}
-              />
-              <div className="d-flex flex-column align-items-start justify-content-center gap-2">
-                <h6 className="fw-bold">{item.dish.name}</h6>
-                <span className="fw-bold">₹{item.subTotal}</span>
-                <div className="d-flex border flex-row align-items-center justify-content-between rounded">
-                  <Button
-                    className="btn-light border-0"
-                    onClick={() => {
-                      handleDecrease(index);
-                    }}
-                  >
-                    -
-                  </Button>
-                  {item.quantity}
-                  <Button
-                    className="btn-light  border  border-0"
-                    onClick={() => {
-                      handleIncrease(index);
-                    }}
-                  >
-                    +
-                  </Button>
-                </div>
-              </div>
-              <div>
+            <img
+              src={item.dish.image}
+              alt="img"
+              className="rounded-4 border"
+              style={{
+                width: 100,
+                height: 100,
+                objectFit: "cover",
+                marginRight: 25,
+              }}
+            />
+            <div className="d-flex flex-column align-items-start justify-content-center gap-2">
+              <h6 className="fw-bold">{item.dish.name}</h6>
+              <span className="fw-bold">₹{item.subTotal}</span>
+              <div className="d-flex border flex-row align-items-center justify-content-between rounded">
                 <Button
+                  className="btn-light border-0"
                   onClick={() => {
-                    handleDelete(index);
+                    handleDecrease(index);
                   }}
-                  className="btn-light border border-0"
                 >
-                  X
+                  -
+                </Button>
+                {item.quantity}
+                <Button
+                  className="btn-light  border  border-0"
+                  onClick={() => {
+                    handleIncrease(index);
+                  }}
+                >
+                  +
                 </Button>
               </div>
             </div>
-          ))}
-        </div>
-        <div className="d-flex  bg-light flex-column align-items-stretch p-3">
-          <div className="d-flex flex-column  gap-4">
-            <div className="d-flex justify-content-between">
-              <span className="fw-bold">Subtotal</span>
-              <span className="fw-bold">₹{subTotal}</span>
-            </div>
-            <div className="d-flex justify-content-between">
-              <span className="fw-bold">Delivery Fee</span>
-              <span className="fw-bold">₹{deliveryFee}</span>
-            </div>
-            <div className="d-flex justify-content-between">
-              <span className="fw-bold">Total</span>
-              <span
-                className="fw-bold fs-5"
-                style={{ color: "var(--bs-primary)" }}
+            <div>
+              <Button
+                onClick={() => {
+                  handleDelete(index);
+                }}
+                className="btn-light border border-0"
               >
-                ₹{total}
-              </span>
+                X
+              </Button>
             </div>
-            <Button className="p-3" onClick={handleClick}>
-              Proceed to Checkout
-            </Button>
           </div>
+        ))}
+      </div>
+      <div className="d-flex  bg-light flex-column align-items-stretch p-3">
+        <div className="d-flex flex-column  gap-4">
+          <div className="d-flex justify-content-between">
+            <span className="fw-bold">Subtotal</span>
+            <span className="fw-bold">₹{subTotal}</span>
+          </div>
+          <div className="d-flex justify-content-between">
+            <span className="fw-bold">Delivery Fee</span>
+            <span className="fw-bold">₹{deliveryFee}</span>
+          </div>
+          <div className="d-flex justify-content-between">
+            <span className="fw-bold">Total</span>
+            <span
+              className="fw-bold fs-5"
+              style={{ color: "var(--bs-primary)" }}
+            >
+              ₹{total}
+            </span>
+          </div>
+          <Button className="p-3" onClick={handleClick}>
+            Proceed to Checkout
+          </Button>
         </div>
       </div>
     </div>
@@ -159,22 +157,23 @@ const CartContainer = () => {
   const [show, setShow] = useState(false);
   return (
     <>
-      <div className="col-lg-3 d-none d-xl-block">
-        <Cart setShow={setShow} />
+      <div className="col-lg-3 d-none d-xxl-flex justify-stretch align-stretch">
+        <div className="d-flex flex-column shadow border rounded p-3 w-100 min-h100">
+          <Offcanvas
+            show={showCart}
+            onHide={() => setShowCart(false)}
+            placement="end"
+            responsive="xxl"
+          >
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title></Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <Cart setShow={setShow} />
+            </Offcanvas.Body>
+          </Offcanvas>
+        </div>
       </div>
-      <Offcanvas
-        show={showCart}
-        className="d-xl-none"
-        onHide={() => setShowCart(false)}
-        placement="end"
-      >
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title></Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <Cart setShow={setShow} />
-        </Offcanvas.Body>
-      </Offcanvas>
 
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Body className="d-flex flex-column gap-4">
