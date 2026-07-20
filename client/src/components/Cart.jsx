@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
-import { Button } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { orderContext } from "../contexts/orderContext";
+import { FaCheckCircle } from "react-icons/fa";
 
 const Cart = () => {
   const { cartItems, setCartItems } = useContext(orderContext);
+  const [show, setShow] = useState(false);
 
   const handleRemove = () => {
     setCartItems([]);
@@ -52,8 +54,9 @@ const Cart = () => {
     setCartItems(newArray);
   };
 
-  const handleSubmit = () => {
-    alert("order submited");
+  const handleClick = () => {
+    setShow(true);
+    setCartItems([]);
   };
 
   return (
@@ -142,11 +145,22 @@ const Cart = () => {
               ₹{total}
             </span>
           </div>
-          <Button className="p-3" onSubmit={handleSubmit}>
+          <Button className="p-3" onClick={handleClick}>
             Proceed to Checkout
           </Button>
         </div>
       </div>
+
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Body className="d-flex flex-column gap-4">
+          <FaCheckCircle
+            size={64}
+            color="var(--bs-primary)"
+            className="mx-auto"
+          />
+          <h3 className="text-center">Order Submitted</h3>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
