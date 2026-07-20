@@ -3,6 +3,8 @@ const cors = require("cors");
 const { default: mongoose } = require("mongoose");
 const dishRouter = require("./routes/dish-router");
 const path = require("node:path");
+const userRouter = require("./routes/user-router");
+const orderRouter = require("./routes/order-router");
 
 const app = express();
 
@@ -20,9 +22,9 @@ mongoose
     console.log("Database not connected");
   });
 
-app.use("api/user", userRouter);
-app.use("api/order", orderRouter);
-app.use("api/dish", dishRouter);
+app.use("/api/user", userRouter);
+app.use("/api/order", orderRouter);
+app.use("/api/dish", dishRouter);
 
 app.use(express.static(path.resolve(__dirname, "./client/dist")));
 app.get("{*splat}", (req, res) => {

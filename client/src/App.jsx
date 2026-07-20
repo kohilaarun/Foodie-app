@@ -5,7 +5,6 @@ import UserProvider from "./contexts/userContext";
 import "./scss/style.scss";
 import { Navigation } from "./components/Navigation";
 import HomePage from "./components/HomePage";
-import Categories from "./components/Categories";
 
 function App() {
   return (
