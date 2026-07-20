@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Navbar,
-  Container,
   Button,
   Nav,
   Badge,
@@ -9,7 +8,7 @@ import {
   Form,
   Image,
 } from "react-bootstrap";
-import profile from "../assets/profile.webp";
+import profile from "../assets/profile.png";
 import { FiHome } from "react-icons/fi";
 import { FiHeart } from "react-icons/fi";
 import { FiShoppingCart } from "react-icons/fi";
@@ -17,8 +16,10 @@ import { FiClipboard } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";
 import foodieLogo from "../assets/Foodie.svg";
 import { Link } from "react-router-dom";
+import { orderContext } from "../contexts/orderContext";
 
 export const Navigation = () => {
+  const { cartItems } = useContext(orderContext);
   return (
     <div className="border shadow">
       <Navbar
@@ -84,7 +85,7 @@ export const Navigation = () => {
                     pill
                     className="position-absolute top-0 start-100 translate-middle"
                   >
-                    3
+                    {cartItems.length}
                   </Badge>
                   Cart
                 </Button>

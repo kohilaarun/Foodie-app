@@ -1,12 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Badge, Button, Card, Col, Form, Row } from "react-bootstrap";
-import pizzaCard from "../assets/dishes/pizzaCard.png";
-import burgerCard from "../assets/dishes/burgerCard.png";
-import pastaCard from "../assets/dishes/pastaCard.png";
-import saladCard from "../assets/dishes/saladCard.png";
-import drinkCard from "../assets/dishes/drinkCard.png";
-import cakeCard from "../assets/dishes/cakeCard.png";
 
 import { FaHeart } from "react-icons/fa";
 import { GoPlus } from "react-icons/go";
@@ -14,87 +8,51 @@ import Starimage from "../assets/Starimage.svg?react";
 import { PiLessThan } from "react-icons/pi";
 import { PiGreaterThan } from "react-icons/pi";
 
+import { dishContext } from "../contexts/dishContext";
+import { orderContext } from "../contexts/orderContext";
+
 const Dishes = () => {
-  const dishesData = [
-    {
-      id: 1,
-      name: "Margherita Pizza",
-      category: "Pizza",
-      price: 249,
-      rating: 4.5,
-      reviews: 120,
-      image: pizzaCard,
-      isVeg: true,
-      description: "Classic cheese pizza with fresh basil.",
-    },
-    {
-      id: 2,
-      name: "Classic Veg Burger",
-      category: "Burger",
-      price: 149,
-      rating: 4.3,
-      reviews: 98,
-      image: burgerCard,
-      isVeg: true,
-      description: "Loaded veggie burger with fresh lettuce.",
-    },
-    {
-      id: 3,
-      name: "White Sauce Pasta",
-      category: "Pasta",
-      price: 199,
-      rating: 4.6,
-      reviews: 80,
-      image: pastaCard,
-      isVeg: true,
-      description: "Creamy white sauce pasta with herbs.",
-    },
-    {
-      id: 4,
-      name: "Greek Salad",
-      category: "Salad",
-      price: 179,
-      icon: "",
-      rating: 4.2,
-      reviews: 60,
-      image: saladCard,
-      isVeg: true,
-      description: "Healthy salad with olives and feta.",
-    },
-    {
-      id: 5,
-      name: "Mint Lemonade",
-      category: "Drinks",
-      price: 99,
-      rating: 4.4,
-      reviews: 70,
-      image: drinkCard,
-      isVeg: true,
-      description: "Refreshing mint lemonade.",
-    },
-    {
-      id: 6,
-      name: "Choco Lava Cake",
-      category: "Desserts",
-      price: 149,
-      rating: 4.7,
-      reviews: 110,
-      image: cakeCard,
-      isVeg: true,
-      description: "Warm chocolate cake with lava center.",
-    },
-  ];
+  const { filteredDishes } = useContext(dishContext);
+  const { cartItems, setCartItems } = useContext(orderContext);
+
+  const handleClick = (dish) => {
+    const foundIndex = cartItems.findIndex((item, index) => {
+      return item.dish.name === dish.name;
+    });
+    if (foundIndex === -1) {
+      setCartItems([
+        ...cartItems,
+        { dish: dish, quantity: 1, subTotal: dish.price },
+      ]);
+    } else {
+      const newArray = [...cartItems];
+      const editItem = newArray[foundIndex];
+      const prevQuntity = editItem.quantity;
+      const price = editItem.dish.price;
+      const newQuntity = prevQuntity + 1;
+      const newSubTotal = newQuntity * price;
+      newArray[foundIndex] = {
+        ...editItem,
+        quantity: newQuntity,
+        subTotal: newSubTotal,
+      };
+      setCartItems(newArray);
+    }
+  };
+
   return (
     <>
       <div className="d-flex flex-column flex-fill border shadow rounded p-3">
         <div className="d-flex justify-content-between">
-          <div className="d-flex flex-column ">
+          <div className="d-flex flex-column">
             <h4>All Dishes </h4>
-            <span className="text-secondary pb-3">Showing 12 results</span>
+            <span className="text-secondary pb-3">
+              Showing {filteredDishes.length} results
+            </span>
           </div>
           <div>
             <Form.Select>
-              <option>Sort by: Popularity</option>
+              <option className="fw-bold">Sort by: Popularity</option>
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
@@ -103,8 +61,8 @@ const Dishes = () => {
         </div>
         <div className="d-flex flex-column">
           <Row>
-            {dishesData.map((dish, id) => (
-              <Col sm={12} lg={6} xl={4} xxl={3} key={dish.id} className="mb-3">
+            {filteredDishes.map((dish, id) => (
+              <Col sm={12} lg={6} xl={4} xxl={3} key={id} className="mb-3">
                 <Card className="h-100 shadow border rounded-4 w-100 ">
                   <Card.Body className="p-0">
                     <div className="position-relative ">
@@ -139,6 +97,9 @@ const Dishes = () => {
 
                       <Button
                         variant="light"
+                        onClick={(e) => {
+                          handleClick(dish);
+                        }}
                         className="w-100 d-flex justify-content-between border"
                       >
                         Add to Cart
@@ -160,7 +121,7 @@ const Dishes = () => {
           <Button variant="light" className="border">
             <PiLessThan />
           </Button>
-          <Button variant="light" className="border">
+          <Button variant="primary" className="border">
             1
           </Button>
           <Button variant="light" className="border">

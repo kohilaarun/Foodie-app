@@ -1,28 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Card } from "react-bootstrap";
-import Allimage from "../assets/Allimage.svg?react";
+import { dishContext } from "../contexts/dishContext";
 
-const Categories = () => {
-  const Categories = [
-    {
-      id: 0,
-      name: "All",
-      label: "All",
-      Svg: Allimage,
-    },
-    {
-      id: 1,
-      name: "Pizza",
-      label: " Pizza",
-      icon: "🍕",
-    },
-    { id: 2, name: "Burger", label: " Burger", icon: "🍔" },
-    { id: 3, name: "Pasta", label: " Pasta", icon: "🍝" },
-    { id: 4, name: "Salad", label: " Salad", icon: "🥗" },
-    { id: 5, name: "Drinks", label: " Drinks", icon: "🥤" },
-    { id: 6, name: "Desserts", label: " Desserts", icon: "🧁" },
-    { id: 7, name: "Snacks", label: " Snacks", icon: "🍟" },
-  ];
+const Categories = (item) => {
+  const { selectedCategory, setSelectedCategory, categories } =
+    useContext(dishContext);
+
+  const handleClick = (item) => {
+    setSelectedCategory(item);
+  };
+
   return (
     <div
       className="border p-3 w-25 shadow"
@@ -32,11 +19,25 @@ const Categories = () => {
         <h5>Categories</h5>
       </div>
 
-      <div className="d-flex flex-column gap-4">
-        {Categories.map((item, index) => {
+      <div className="d-flex flex-column gap-2">
+        {categories.map((item, index) => {
+          const isSelected = selectedCategory.name === item.name;
+
           return (
-            <Button variant="white" key={index} className="text-start ">
-              {item.Svg && <item.Svg width={25} fill="var(--bs-primary)" />}
+            <Button
+              variant={isSelected ? "primary" : "white"}
+              key={index}
+              className="text-start py-3"
+              onClick={() => {
+                handleClick(item);
+              }}
+            >
+              {item.Svg && (
+                <item.Svg
+                  width={25}
+                  fill={isSelected ? "white" : "var(--bs-primary)"}
+                />
+              )}
               <span style={{ marginRight: 6 }}>{item.icon}</span>
               <span className="fw-bold">{item.label}</span>
             </Button>
