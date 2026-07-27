@@ -5,6 +5,8 @@ import UserProvider from "./contexts/userContext";
 import "./scss/style.scss";
 import { Navigation } from "./components/Navigation";
 import HomePage from "./components/HomePage";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
               <div className="row flex-fill align-items-stretch p-3 g-3">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="login" element={<Login />} />
                 </Routes>
               </div>
             </div>

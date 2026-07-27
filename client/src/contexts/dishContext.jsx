@@ -8,6 +8,8 @@ import saladCard from "../assets/dishes/saladCard.png";
 import drinkCard from "../assets/dishes/drinkCard.png";
 import cakeCard from "../assets/dishes/cakeCard.png";
 import Allimage from "../assets/Allimage.svg?react";
+import BiriyaniCard from "../assets/dishes/biriyanicard.png";
+import FrenchFriceCard from "../assets/dishes/frenchfricecard.png";
 
 const dishes = [
   {
@@ -70,6 +72,26 @@ const dishes = [
     image: cakeCard,
     isVeg: true,
     description: "Warm chocolate cake with lava center.",
+  },
+  {
+    name: "Veg Biriyani",
+    category: "Food",
+    price: 150,
+    rating: 4.9,
+    reviews: 90,
+    image: BiriyaniCard,
+    isVeg: true,
+    description: "Healthy food.",
+  },
+  {
+    name: "French Frice",
+    category: "Food",
+    price: 94,
+    rating: 4.5,
+    reviews: 80,
+    image: FrenchFriceCard,
+    isVeg: true,
+    description: "Refreshing mint lemonade.",
   },
 ];
 

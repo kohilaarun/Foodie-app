@@ -36,9 +36,10 @@ const initialItems = [
     quantity: 1,
     subTotal: 149,
   },
+
   {
     dish: {
-      id: 5,
+      id: 3,
       name: "Mint Lemonade",
       category: "Drinks",
       price: 99,

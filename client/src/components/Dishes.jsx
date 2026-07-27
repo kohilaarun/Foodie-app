@@ -7,7 +7,6 @@ import { GoPlus } from "react-icons/go";
 import Starimage from "../assets/Starimage.svg?react";
 import { PiLessThan } from "react-icons/pi";
 import { PiGreaterThan } from "react-icons/pi";
-
 import { dishContext } from "../contexts/dishContext";
 import { orderContext } from "../contexts/orderContext";
 

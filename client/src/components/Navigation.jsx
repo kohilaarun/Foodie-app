@@ -75,6 +75,20 @@ export const Navigation = () => {
                 <FiHeart />
                 Favorites
               </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/login"
+                className="d-flex align-items-center gap-1"
+              >
+                Login
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/signup"
+                className="d-flex align-items-center gap-1"
+              >
+                SignUp
+              </Nav.Link>
               <Nav.Link className="d-flex align-items-center gap-1">
                 <Button
                   variant="outline-success"
