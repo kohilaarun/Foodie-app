@@ -14,12 +14,15 @@ import { FiHeart } from "react-icons/fi";
 import { FiShoppingCart } from "react-icons/fi";
 import { FiClipboard } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";
-import foodieLogo from "../assets/Foodie.svg";
+import FoodieLogo from "../assets/Foodie.svg?react";
 import { Link } from "react-router-dom";
 import { orderContext } from "../contexts/orderContext";
+import { userContext } from "../contexts/userContext";
+import { css } from "@emotion/react";
 
 export const Navigation = () => {
   const { cartItems, setShowCart } = useContext(orderContext);
+  const { logout, token, user } = useContext(userContext);
   return (
     <div className="border shadow">
       <Navbar
@@ -31,9 +34,9 @@ export const Navigation = () => {
         <Navbar.Brand
           as={Link}
           to="/"
-          className="text-success d-flex align-items-center fw-bold"
+          className="text-primary d-flex align-items-center fw-bold"
         >
-          <img src={foodieLogo} alt="foodie" width={50} />
+          <FoodieLogo width={50} css={foodieCss} />
           <span style={{ fontSize: "33px" }}>Foodie</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -75,24 +78,39 @@ export const Navigation = () => {
                 <FiHeart />
                 Favorites
               </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/login"
-                className="d-flex align-items-center gap-1"
-              >
-                Login
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/signup"
-                className="d-flex align-items-center gap-1"
-              >
-                SignUp
-              </Nav.Link>
+              {token ? (
+                <Nav.Link
+                  as={Link}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    logout();
+                  }}
+                  className="d-flex align-items-center gap-1"
+                >
+                  Logout
+                </Nav.Link>
+              ) : (
+                <>
+                  <Nav.Link
+                    as={Link}
+                    to="/login"
+                    className="d-flex align-items-center gap-1"
+                  >
+                    Login
+                  </Nav.Link>
+                  <Nav.Link
+                    as={Link}
+                    to="/signup"
+                    className="d-flex align-items-center gap-1"
+                  >
+                    SignUp
+                  </Nav.Link>
+                </>
+              )}
               <Nav.Link className="d-flex align-items-center gap-1">
                 <Button
-                  variant="outline-success"
-                  className="position-relative rounded gap-2 d-flex align-items-center"
+                  variant="outline-primary"
+                  className=" position-relative rounded gap-2 d-flex align-items-center"
                   onClick={() => setShowCart(true)}
                 >
                   <FiShoppingCart className="" />
@@ -105,14 +123,17 @@ export const Navigation = () => {
                   Cart
                 </Button>
               </Nav.Link>
-              <Nav.Link className="d-flex align-items-center gap-1">
-                <Image
-                  src={profile}
-                  alt="img"
-                  roundedCircle
-                  style={{ width: 50, height: 50, objectFit: "cover" }}
-                />
-              </Nav.Link>
+
+              {user && (
+                <Nav.Link className="d-flex align-items-center gap-1">
+                  <Image
+                    src={profile}
+                    alt="img"
+                    roundedCircle
+                    style={{ width: 50, height: 50, objectFit: "cover" }}
+                  />
+                </Nav.Link>
+              )}
             </Nav>
           </div>
         </Navbar.Collapse>
@@ -120,3 +141,10 @@ export const Navigation = () => {
     </div>
   );
 };
+
+const foodieCss = css`
+  & * {
+    fill: var(--bs-primary);
+    stroke: var(--bs-primary);
+  }
+`;

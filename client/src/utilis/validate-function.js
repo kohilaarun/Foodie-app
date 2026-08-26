@@ -18,13 +18,13 @@ export const validatePassword = (value) => {
   return error;
 };
 
-export const validateConfirmPassword = (value, Password) => {
+export const validateConfirmPassword = (value, password) => {
   let error = "";
   if (value === "") {
     error = "Confirm password required";
   } else if (value.length < 8) {
     error = "Should be atleast 8 characters";
-  } else if (value === Password) {
+  } else if (value !== password) {
     error = "Password does not match";
   }
   return error;

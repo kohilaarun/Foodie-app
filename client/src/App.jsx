@@ -7,6 +7,8 @@ import { Navigation } from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
+import OrderPage from "./components/OrderPage";
+import CartContainer from "./components/Cart";
 
 function App() {
   return (
@@ -20,8 +22,10 @@ function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/signup" element={<SignUp />} />
-                  <Route path="login" element={<Login />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/orders" element={<OrderPage />} />
                 </Routes>
+                <CartContainer />
               </div>
             </div>
           </OrderProvider>

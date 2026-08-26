@@ -31,7 +31,7 @@ const Dishes = () => {
       const newQuntity = prevQuntity + 1;
       const newSubTotal = newQuntity * price;
       newArray[foundIndex] = {
-        ...editItem,
+        ...newArray[foundIndex],
         quantity: newQuntity,
         subTotal: newSubTotal,
       };

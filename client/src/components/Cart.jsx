@@ -2,9 +2,10 @@ import React, { useContext, useState } from "react";
 import { Button, Modal, Offcanvas } from "react-bootstrap";
 import { orderContext } from "../contexts/orderContext";
 import { FaCheckCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Cart = (props) => {
-  const { cartItems, setCartItems, setShowCart } = useContext(orderContext);
+  const { cartItems, setCartItems } = useContext(orderContext);
   const { setShow } = props;
 
   const handleRemove = () => {
@@ -54,10 +55,10 @@ const Cart = (props) => {
     setCartItems(newArray);
   };
 
-  const handleClick = () => {
+  const handleSubmit = () => {
     setShow(true);
-    setCartItems([]);
-    setShowCart(false);
+    //setCartItems([]);
+    //setShowCart(false);
   };
 
   return (
@@ -143,7 +144,7 @@ const Cart = (props) => {
               ₹{total}
             </span>
           </div>
-          <Button className="p-3" onClick={handleClick}>
+          <Button className="p-3" onClick={handleSubmit}>
             Proceed to Checkout
           </Button>
         </div>
@@ -153,8 +154,16 @@ const Cart = (props) => {
 };
 
 const CartContainer = () => {
-  const { showCart, setShowCart } = useContext(orderContext);
+  const { showCart, setShowCart, setCartItems } = useContext(orderContext);
   const [show, setShow] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleBuy = () => {
+    setCartItems([]);
+    setShowCart(false);
+    navigate("/order");
+  };
   return (
     <>
       <div className="col-lg-3 d-none d-xxl-flex justify-stretch align-stretch">
@@ -182,7 +191,7 @@ const CartContainer = () => {
             color="var(--bs-primary)"
             className="mx-auto"
           />
-          <h3 className="text-center">Order Submitted</h3>
+          <Button onClick={handleBuy}>Buy Now</Button>
         </Modal.Body>
       </Modal>
     </>

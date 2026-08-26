@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { validateEmail, validatePassword } from "../utilis/validate-function";
+import axios from "axios";
+import { userContext } from "../contexts/userContext";
 
 const Login = () => {
-  const [login, setLogin] = useState({
+  const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
   });
   const [touched, setTouched] = useState({ email: false, password: false });
-  console.log("login", login);
-  const emailError = validateEmail(login.email);
-  const passwordError = validatePassword(login.password);
+
+  const emailError = validateEmail(loginDetails.email);
+  const passwordError = validatePassword(loginDetails.password);
 
   const isFormvalid = emailError === "" && passwordError === "";
 
+  const { login } = useContext(userContext);
+
   const handleChange = (e) => {
-    setLogin({ ...login, [e.target.name]: e.target.value });
+    setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
     setTouched({ ...touched, [e.target.name]: true });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setTouched({ email: true, password: true });
     if (!isFormvalid) return;
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/login`,
+        { loginDetails },
+      );
+      const { user, token } = res.data;
+      login(user, token);
+    } catch (error) {
+      alert(error.response.data.message);
+      console.log("error occured", error);
+    }
   };
   return (
     <div className="container d-flex flex-row justify-content-center align-items-center ">
@@ -37,7 +52,7 @@ const Login = () => {
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
-            value={login.email}
+            value={loginDetails.email}
             placeholder="Email"
             name="email"
             onChange={handleChange}
@@ -52,7 +67,7 @@ const Login = () => {
             type="password"
             placeholder="Password"
             name="password"
-            value={login.password}
+            value={loginDetails.password}
             onChange={handleChange}
           ></Form.Control>
           {touched.password && passwordError && (

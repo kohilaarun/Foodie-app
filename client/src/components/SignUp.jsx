@@ -1,15 +1,20 @@
 import React from "react";
 import { useState } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { ImEyeBlocked, ImEye } from "react-icons/im";
 import {
-  validateconfirmPassword,
+  validateConfirmPassword,
   validateEmail,
   validateName,
   validatePassword,
 } from "../utilis/validate-function";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const [signup, setSignup] = useState({
+  const navigate = useNavigate();
+
+  const [signupDetails, setSignupDetails] = useState({
     name: "",
     email: "",
     password: "",
@@ -21,13 +26,14 @@ const SignUp = () => {
     password: false,
     confirmPassword: false,
   });
+  const [showPassword, setShowPassword] = useState(false);
 
-  const nameError = validateName(signup.name);
-  const emailError = validateEmail(signup.email);
-  const passwordError = validatePassword(signup.password);
-  const confirmPasswordError = validateconfirmPassword(
-    signup.confirmPassword,
-    signup.password,
+  const nameError = validateName(signupDetails.name);
+  const emailError = validateEmail(signupDetails.email);
+  const passwordError = validatePassword(signupDetails.password);
+  const confirmPasswordError = validateConfirmPassword(
+    signupDetails.confirmPassword,
+    signupDetails.password,
   );
 
   const isFormValid =
@@ -37,10 +43,10 @@ const SignUp = () => {
     confirmPasswordError === "";
 
   const handleChange = (e) => {
-    setSignup({ ...signup, [e.target.name]: e.target.value });
+    setSignupDetails({ ...signupDetails, [e.target.name]: e.target.value });
     setTouched({ ...touched, [e.target.name]: true });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setTouched({
       name: true,
@@ -49,8 +55,17 @@ const SignUp = () => {
       confirmPassword: true,
     });
     if (!isFormValid) return;
-    alert;
+    try {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/signup`, {
+        signupDetails,
+      });
+      navigate("/login");
+    } catch (error) {
+      alert(error.response.data.message);
+      console.error("error occured", error);
+    }
   };
+
   return (
     <div className=" container d-flex flex-row justify-content-center align-items-center">
       <Form
@@ -63,7 +78,7 @@ const SignUp = () => {
           <Form.Control
             placeholder="Name"
             name="name"
-            value={signup.name}
+            value={signupDetails.name}
             onChange={handleChange}
           ></Form.Control>
           {touched.name && nameError && (
@@ -74,7 +89,7 @@ const SignUp = () => {
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
-            value={signup.email}
+            value={signupDetails.email}
             placeholder="Email"
             name="email"
             onChange={handleChange}
@@ -85,26 +100,47 @@ const SignUp = () => {
         </Form.Group>
         <Form.Group>
           <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={handleChange}
-            value={signup.password}
-          ></Form.Control>
+          <InputGroup>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              name="password"
+              onChange={handleChange}
+              value={signupDetails.password}
+            ></Form.Control>
+
+            <Button
+              className="btn btn-light border"
+              onClick={() =>
+                setShowPassword((prevShowPassword) => !prevShowPassword)
+              }
+            >
+              {showPassword ? <ImEyeBlocked /> : <ImEye />}
+            </Button>
+          </InputGroup>
           {touched.password && passwordError && (
             <p className="text-danger">{passwordError}</p>
           )}
         </Form.Group>
         <Form.Group>
           <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            onChange={handleChange}
-            value={signup.confirmPassword}
-          ></Form.Control>
+          <InputGroup>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              onChange={handleChange}
+              value={signupDetails.confirmPassword}
+            ></Form.Control>
+            <Button
+              className="btn btn-light border"
+              onClick={() =>
+                setShowPassword((prevShowPassword) => !prevShowPassword)
+              }
+            >
+              {showPassword ? <ImEyeBlocked /> : <ImEye />}
+            </Button>
+          </InputGroup>
           {touched.confirmPassword && confirmPasswordError && (
             <p className="text-danger">{confirmPasswordError}</p>
           )}

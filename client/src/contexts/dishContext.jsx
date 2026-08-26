@@ -1,6 +1,4 @@
 import { createContext, useState } from "react";
-
-export const dishContext = createContext();
 import pizzaCard from "../assets/dishes/pizzaCard.png";
 import burgerCard from "../assets/dishes/burgerCard.png";
 import pastaCard from "../assets/dishes/pastaCard.png";
@@ -10,6 +8,8 @@ import cakeCard from "../assets/dishes/cakeCard.png";
 import Allimage from "../assets/Allimage.svg?react";
 import BiriyaniCard from "../assets/dishes/biriyanicard.png";
 import FrenchFriceCard from "../assets/dishes/frenchfricecard.png";
+
+export const dishContext = createContext();
 
 const dishes = [
   {
