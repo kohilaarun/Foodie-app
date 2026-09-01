@@ -113,7 +113,7 @@ export const Navigation = () => {
                   className=" position-relative rounded gap-2 d-flex align-items-center"
                   onClick={() => setShowCart(true)}
                 >
-                  <FiShoppingCart className="" />
+                  <FiShoppingCart />
                   <Badge
                     pill
                     className="position-absolute top-0 start-100 translate-middle"

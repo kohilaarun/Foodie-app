@@ -1,75 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Card, Modal } from "react-bootstrap";
-import pizzaCard from "../assets/dishes/pizzaCard.png";
-import burgerCard from "../assets/dishes/burgerCard.png";
-import drinkCard from "../assets/dishes/drinkCard.png";
 import { BsPencil } from "react-icons/bs";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { css } from "@emotion/react";
-
-const initialOrders = [
-  {
-    items: [
-      {
-        dish: {
-          id: 1,
-          name: "Margherita Pizza",
-          category: "Pizza",
-          price: 249,
-          rating: 4.5,
-          reviews: 120,
-          image: pizzaCard,
-          isVeg: true,
-          description: "Classic cheese pizza with fresh basil.",
-        },
-        quantity: 1,
-        subTotal: 249,
-      },
-      {
-        dish: {
-          id: 2,
-          name: "Classic Veg Burger",
-          category: "Burger",
-          price: 149,
-          rating: 4.3,
-          reviews: 98,
-          image: burgerCard,
-          isVeg: true,
-          description: "Loaded veggie burger with fresh lettuce.",
-        },
-        quantity: 1,
-        subTotal: 149,
-      },
-      {
-        dish: {
-          id: 3,
-          name: "Mint Lemonade",
-          category: "Drinks",
-          price: 99,
-          rating: 4.4,
-          reviews: 70,
-          image: drinkCard,
-          isVeg: true,
-          description: "Refreshing mint lemonade.",
-        },
-        quantity: 1,
-        subTotal: 99,
-      },
-    ],
-    subTotal: 497,
-    deliveryFee: 40,
-    totalAmount: 537,
-  },
-];
+import { orderContext } from "../contexts/orderContext";
 
 const OrderPage = () => {
-  const [orders, setOrders] = useState(initialOrders);
+  const { orders, setOrders } = useContext(orderContext);
+
   const [show, setShow] = useState(false);
 
   const handleClick = () => {
     setShow(true);
   };
   const handleClose = () => {
+    setShow(false);
+  };
+  const handleDelete = () => {
+    setOrders([]);
     setShow(false);
   };
 
@@ -122,7 +70,9 @@ const OrderPage = () => {
             >
               NO
             </Button>
-            <Button className="text-light">DELETE</Button>
+            <Button className="text-light" onClick={handleDelete}>
+              DELETE
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

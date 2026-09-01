@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Button, Modal, Offcanvas } from "react-bootstrap";
 import { orderContext } from "../contexts/orderContext";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaShoppingBag } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { userContext } from "../contexts/userContext";
 
 const Cart = (props) => {
   const { cartItems, setCartItems } = useContext(orderContext);
@@ -154,7 +155,9 @@ const Cart = (props) => {
 };
 
 const CartContainer = () => {
-  const { showCart, setShowCart, setCartItems } = useContext(orderContext);
+  const { showCart, setShowCart, setCartItems, setOrders, cartItems } =
+    useContext(orderContext);
+  const { token } = useContext(userContext);
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
@@ -162,8 +165,14 @@ const CartContainer = () => {
   const handleBuy = () => {
     setCartItems([]);
     setShowCart(false);
-    navigate("/order");
+    setShow(false);
+    navigate("/orders");
   };
+
+  if (!token) {
+    return null;
+  }
+
   return (
     <>
       <div className="col-lg-3 d-none d-xxl-flex justify-stretch align-stretch">
@@ -185,13 +194,16 @@ const CartContainer = () => {
       </div>
 
       <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Checkout</Modal.Title>
+        </Modal.Header>
         <Modal.Body className="d-flex flex-column gap-4">
-          <FaCheckCircle
+          <FaShoppingBag
             size={64}
             color="var(--bs-primary)"
             className="mx-auto"
           />
-          <Button onClick={handleBuy}>Buy Now</Button>
+          <Button onClick={handleBuy}>Place Order</Button>
         </Modal.Body>
       </Modal>
     </>

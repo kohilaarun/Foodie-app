@@ -9,6 +9,7 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import OrderPage from "./components/OrderPage";
 import CartContainer from "./components/Cart";
+import PageContainer from "./components/PageContainer";
 
 function App() {
   return (
@@ -19,12 +20,15 @@ function App() {
             <div className="d-flex flex-column min-vh-100">
               <Navigation />
               <div className="row flex-fill align-items-stretch p-3 g-3">
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/orders" element={<OrderPage />} />
-                </Routes>
+                <PageContainer>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/orders" element={<OrderPage />} />
+                  </Routes>
+                </PageContainer>
+
                 <CartContainer />
               </div>
             </div>

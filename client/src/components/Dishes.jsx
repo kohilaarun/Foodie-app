@@ -41,7 +41,7 @@ const Dishes = () => {
   };
 
   return (
-    <div className="col-12 col-md-9  col-xxl-7">
+    <div className="col-12 col-md-9">
       <div className="d-flex flex-column flex-fill border shadow rounded p-3  h-100">
         <div className="d-flex justify-content-between">
           <div className="d-flex flex-column">
