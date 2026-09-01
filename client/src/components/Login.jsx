@@ -41,9 +41,9 @@ const Login = () => {
     }
   };
   return (
-    <div className="container d-flex flex-row justify-content-center align-items-center">
+    <div className="row d-flex flex-row justify-content-center align-items-center">
       <Form
-        className="border border-1 p-3 shadow d-flex flex-column gap-3 rounded w-50"
+        className="border border-1 p-3 shadow d-flex flex-column gap-3 rounded col-md-6 col-xxl-3"
         onSubmit={handleSubmit}
       >
         <h3 className="d-flex flex-row justify-content-center ">Login</h3>
