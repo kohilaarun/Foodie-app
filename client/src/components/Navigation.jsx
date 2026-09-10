@@ -23,8 +23,9 @@ import { css } from "@emotion/react";
 export const Navigation = () => {
   const { cartItems, setShowCart } = useContext(orderContext);
   const { logout, token, user } = useContext(userContext);
+
   return (
-    <div className="border shadow">
+    <div className="row border shadow">
       <Navbar
         bg="white"
         expand="lg"
@@ -54,41 +55,60 @@ export const Navigation = () => {
           </Form>
           <div>
             <Nav className="d-flex  align-items-center">
-              <Nav.Link
-                as={Link}
-                to="/"
-                className="d-flex align-items-center gap-1"
-              >
-                <FiHome />
-                Home
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/orders"
-                className="d-flex align-items-center gap-1"
-              >
-                <FiClipboard />
-                Orders
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/favorites"
-                className="d-flex align-items-center gap-1"
-              >
-                <FiHeart />
-                Favorites
-              </Nav.Link>
               {token ? (
-                <Nav.Link
-                  as={Link}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    logout();
-                  }}
-                  className="d-flex align-items-center gap-1"
-                >
-                  Logout
-                </Nav.Link>
+                <>
+                  <Nav.Link
+                    as={Link}
+                    to="/"
+                    className="d-flex align-items-center gap-1"
+                  >
+                    <FiHome />
+                    Home
+                  </Nav.Link>
+                  <Nav.Link
+                    as={Link}
+                    to="/orders"
+                    className="d-flex align-items-center gap-1"
+                  >
+                    <FiClipboard />
+                    Orders
+                  </Nav.Link>
+                  <Nav.Link
+                    as={Link}
+                    to="/favorites"
+                    className="d-flex align-items-center gap-1"
+                  >
+                    <FiHeart />
+                    Favorites
+                  </Nav.Link>
+
+                  <Nav.Link
+                    as={Link}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      logout();
+                    }}
+                    className="d-flex align-items-center gap-1"
+                  >
+                    Logout
+                  </Nav.Link>
+                  <Nav.Link className="d-flex align-items-center gap-1">
+                    <Button
+                      variant="outline-primary"
+                      className=" position-relative rounded gap-2 d-flex align-items-center"
+                      onClick={() => setShowCart(true)}
+                    >
+                      <FiShoppingCart />
+                      <Badge
+                        pill
+                        className="position-absolute top-0 start-100 translate-middle"
+                      >
+                        {cartItems.length}
+                      </Badge>
+                      Cart
+                    </Button>
+                  </Nav.Link>
+                </>
               ) : (
                 <>
                   <Nav.Link
@@ -107,22 +127,6 @@ export const Navigation = () => {
                   </Nav.Link>
                 </>
               )}
-              <Nav.Link className="d-flex align-items-center gap-1">
-                <Button
-                  variant="outline-primary"
-                  className=" position-relative rounded gap-2 d-flex align-items-center"
-                  onClick={() => setShowCart(true)}
-                >
-                  <FiShoppingCart />
-                  <Badge
-                    pill
-                    className="position-absolute top-0 start-100 translate-middle"
-                  >
-                    {cartItems.length}
-                  </Badge>
-                  Cart
-                </Button>
-              </Nav.Link>
 
               {user && (
                 <Nav.Link className="d-flex align-items-center gap-1">

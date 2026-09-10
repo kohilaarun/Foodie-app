@@ -17,9 +17,9 @@ function App() {
       <UserProvider>
         <DishProvider>
           <OrderProvider>
-            <div className="d-flex flex-column min-vh-100">
+            <div className="d-flex flex-column min-vh-100 container-fluid">
               <Navigation />
-              <div className="row flex-fill align-items-stretch p-3 g-3">
+              <div className="row flex-fill align-items-stretch p-3 g-3 px-1">
                 <PageContainer>
                   <Routes>
                     <Route path="/" element={<HomePage />} />
